@@ -89,7 +89,9 @@ public class BlockUtils {
             Material.CRACKED_POLISHED_BLACKSTONE_BRICKS, Material.GILDED_BLACKSTONE, Material.DRIPSTONE_BLOCK,
             Material.NETHER_BRICK, Material.TERRACOTTA, Material.BLUE_TERRACOTTA, Material.BLACK_TERRACOTTA,
             Material.BROWN_TERRACOTTA, Material.GRAY_TERRACOTTA, Material.YELLOW_TERRACOTTA, Material.ORANGE_TERRACOTTA,
-            Material.RED_TERRACOTTA, Material.LIGHT_GRAY_TERRACOTTA, Material.WHITE_TERRACOTTA
+            Material.RED_TERRACOTTA, Material.LIGHT_GRAY_TERRACOTTA, Material.WHITE_TERRACOTTA,
+            Material.SANDSTONE, Material.RED_SANDSTONE, Material.SMOOTH_SANDSTONE, Material.CHISELED_RED_SANDSTONE,
+            Material.SMOOTH_RED_SANDSTONE, Material.CUT_SANDSTONE, Material.CUT_RED_SANDSTONE, Material.CHISELED_SANDSTONE
     );
 
     public static final Set<Material> shovelBlocks = EnumSet.of(
