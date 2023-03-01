@@ -12,12 +12,15 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.ItemStack;
@@ -81,7 +84,7 @@ public class BukkitListeners implements Listener {
 
         if (attributeManager.hasAttribute(item, CustomAttribute.TREE_CUT) && MaterialUtils.isLog(block.getType())) {
             if (CustomAttribute.TREE_CUT.getHandler() instanceof TreeCutHandler handler) {
-                handler.cutTree(player, block, attributeManager);
+                handler.cutTree(player, block);
             }
         }
     }
@@ -100,8 +103,8 @@ public class BukkitListeners implements Listener {
 
         if (e.getAction() == Action.LEFT_CLICK_AIR) {
             ItemStack boots = player.getEquipment().getBoots();
-            if(boots == null) return;
-            if(attributeManager.hasAttribute(boots, CustomAttribute.POWER_BOOTS)) {
+            if (boots == null) return;
+            if (attributeManager.hasAttribute(boots, CustomAttribute.POWER_BOOTS)) {
                 if (CustomAttribute.POWER_BOOTS.getHandler() instanceof PowerBootsHandler handler) {
                     handler.onUserPowerBoots(player);
                 }
@@ -185,6 +188,16 @@ public class BukkitListeners implements Listener {
 
         if (CustomAttribute.POWER_BOOTS.getHandler() instanceof PowerBootsHandler handler) {
             handler.onReachGround(event);
+        }
+    }
+
+    @EventHandler
+    public void onEntityChangeBlock(EntityChangeBlockEvent event) {
+        if(event.getEntity() instanceof FallingBlock fallingBlock) {
+            if(MaterialUtils.isLog(fallingBlock.getBlockData().getMaterial())) {
+                event.getEntity().remove();
+                event.setCancelled(true);
+            }
         }
     }
 

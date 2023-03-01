@@ -1,6 +1,7 @@
 package fr.iban.customitems;
 
 import fr.iban.customitems.listener.BukkitListeners;
+import fr.iban.customitems.listener.JobsRebornListeners;
 import fr.iban.customitems.listener.SurvivalCoreListeners;
 import fr.iban.survivalcore.event.ItemRepairEvent;
 import org.bukkit.Bukkit;
@@ -21,8 +22,13 @@ public final class CustomItemsPlugin extends JavaPlugin {
         registerCommands();
         registerEvent(new BukkitListeners(this));
         if(isEnabled("SurvivalCore")) {
-            getLogger().info("Hooked with SurvivalCore.");
+            getLogger().info("Hooked SurvivalCore.");
             registerEvent(new SurvivalCoreListeners(this));
+        }
+
+        if(isEnabled("Jobs")) {
+            getLogger().info("Hooked Jobs.");
+            registerEvent(new JobsRebornListeners(this));
         }
     }
 

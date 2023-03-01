@@ -21,6 +21,13 @@ public class MaterialUtils {
             Material.WHEAT, Material.POTATOES, Material.CARROTS,
             Material.BEETROOTS, Material.NETHER_WART);
 
+    public static final Set<Material> logs = EnumSet.of(
+            Material.ACACIA_LOG, Material.BIRCH_LOG, Material.DARK_OAK_LOG, Material.JUNGLE_LOG, Material.OAK_LOG,
+            Material.SPRUCE_LOG, Material.WARPED_STEM, Material.CRIMSON_STEM, Material.STRIPPED_ACACIA_LOG,
+            Material.STRIPPED_BIRCH_LOG, Material.STRIPPED_CRIMSON_HYPHAE, Material.STRIPPED_JUNGLE_LOG,
+            Material.STRIPPED_OAK_LOG, Material.STRIPPED_DARK_OAK_LOG, Material.STRIPPED_SPRUCE_LOG, Material.MANGROVE_LOG,
+            Material.BROWN_MUSHROOM_BLOCK, Material.RED_MUSHROOM_BLOCK, Material.MUSHROOM_STEM);
+
     public static boolean isShovel(Material material) {
         return shovels.contains(material);
     }
@@ -34,14 +41,7 @@ public class MaterialUtils {
     }
 
     public static boolean isLog(Material material) {
-        return switch (material) {
-            case ACACIA_LOG, BIRCH_LOG, DARK_OAK_LOG, JUNGLE_LOG, OAK_LOG,
-                    SPRUCE_LOG, WARPED_STEM, CRIMSON_STEM, STRIPPED_ACACIA_LOG,
-                    STRIPPED_BIRCH_LOG, STRIPPED_CRIMSON_HYPHAE, STRIPPED_JUNGLE_LOG,
-                    STRIPPED_OAK_LOG, STRIPPED_DARK_OAK_LOG, STRIPPED_SPRUCE_LOG, MANGROVE_LOG ->
-                    true;
-            default -> false;
-        };
+        return logs.contains(material);
     }
 
 
