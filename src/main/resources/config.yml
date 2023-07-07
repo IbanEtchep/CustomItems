@@ -1,1 +1,20 @@
 range-mining-jobs-multiplier: 1
+range-harvest-jobs-multiplier: 1
+tree-cut-jobs-multiplier: 1
+
+range-mining:
+  pickaxe:
+    #Si cette option est activée, seuls les blocs qui nécessitent une pioche pour être cassés seront cassés en 3x3.
+    only-pickaxe-mineable-blocks: true
+    #transforme la blacklist en whitelist, donc seul les blocs de cette liste sont cassés en 3x3
+    blacklist-inversed: false
+    #Blocs qui ne doivent pas être cassés en 3x3 par une pioche
+    blacklist:
+      - OBSIDIAN
+  shovel:
+    #Si cette option est activée, seuls les blocs qui nécessitent une pelle pour être cassés seront cassés en 3x3.
+    only-pickaxe-mineable-blocks: true
+    #transforme la blacklist en whitelist, donc seul les blocs de cette liste sont cassés en 3x3
+    blacklist-inversed: false
+    #Blocs qui ne doivent pas être cassés en 3x3 par une pelle
+    blacklist: []

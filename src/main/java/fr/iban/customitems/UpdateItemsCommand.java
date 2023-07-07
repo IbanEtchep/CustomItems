@@ -14,10 +14,20 @@ import java.util.List;
 
 public class UpdateItemsCommand {
 
+    private final CustomItemsPlugin plugin;
     private final CustomAttributeManager attributeManager;
 
     public UpdateItemsCommand(CustomItemsPlugin plugin) {
+        this.plugin = plugin;
         this.attributeManager = plugin.getAttributeManager();
+    }
+
+    @Command("customitems reload")
+    @CommandPermission("customitems.reload")
+    public void reload(Player sender) {
+        plugin.reloadConfig();
+        plugin.getAttributeManager().registerHandlers(plugin);
+        sender.sendMessage("§cConfiguration reloaded.");
     }
 
     @Command("updateitems")

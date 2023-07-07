@@ -12,19 +12,6 @@ import java.util.stream.Collectors;
 
 public class BlockUtils {
 
-    public static List<Block> getSurroundingBlocks(BlockFace blockFace, Block targetBlock, ItemStack tool) {
-        List<Block> surroundingBlocks = getSurroundingBlocks(blockFace, targetBlock);
-        if (MaterialUtils.isShovel(tool.getType())) {
-            return surroundingBlocks.stream()
-                    .filter(block -> Tag.MINEABLE_SHOVEL.isTagged(block.getType())).collect(Collectors.toList());
-        } else if (MaterialUtils.isPickaxe(tool.getType())) {
-            return surroundingBlocks.stream()
-                    .filter(block -> Tag.MINEABLE_PICKAXE.isTagged(block.getType()) && block.getType() != Material.OBSIDIAN)
-                    .collect(Collectors.toList());
-        }
-        return surroundingBlocks;
-    }
-
     public static List<Block> getSurroundingBlocks(BlockFace blockFace, Block targetBlock) {
         ArrayList<Block> blocks = new ArrayList<>();
         World world = targetBlock.getWorld();

@@ -17,12 +17,12 @@ public class CustomAttributeManager {
     public CustomAttributeManager(CustomItemsPlugin plugin) {
         this.plugin = plugin;
         customAttributeKey = new NamespacedKey(plugin, "custom_attribute");
-        registerHandlers();
+        registerHandlers(plugin);
     }
 
-    public void registerHandlers() {
+    public void registerHandlers(CustomItemsPlugin plugin) {
         CustomAttribute.MELT_MINING.registerHandler(new MeltMiningHandler());
-        CustomAttribute.RANGE_MINING.registerHandler(new RangeMiningHandler());
+        CustomAttribute.RANGE_MINING.registerHandler(new RangeMiningHandler(plugin));
         CustomAttribute.RANGE_HARVEST.registerHandler(new RangeHarvestHandler());
         CustomAttribute.HARVEST_REPLANT.registerHandler(new HarvestReplantHandler());
         CustomAttribute.TREE_CUT.registerHandler(new TreeCutHandler());
