@@ -20,9 +20,16 @@ public class JobsRebornListeners implements Listener {
     private final CustomItemsPlugin plugin;
     private final CustomAttributeManager attributeManager;
 
+    private int rangeMiningMultiplier = 1;
+    private int rangeHarvestMultiplier = 1;
+    private int treeCutMultiplier = 1;
+
     public JobsRebornListeners(CustomItemsPlugin plugin) {
         this.plugin = plugin;
         this.attributeManager = plugin.getAttributeManager();
+        this.rangeMiningMultiplier = plugin.getConfig().getInt("range-mining-jobs-multiplier", 1);
+        this.rangeHarvestMultiplier = plugin.getConfig().getInt("range-harvest-jobs-multiplier", 1);
+        this.treeCutMultiplier = plugin.getConfig().getInt("tree-cut-jobs-multiplier", 1);
     }
 
     @EventHandler
@@ -36,12 +43,16 @@ public class JobsRebornListeners implements Listener {
 
         if(block != null) {
             if(MaterialUtils.isLog(block.getType()) && attributeManager.hasAttribute(item, CustomAttribute.TREE_CUT)) {
-                e.setAmount(e.getAmount()/2);
+                e.setAmount(e.getAmount()*treeCutMultiplier);
             }
 
-            if(BlockUtils.pickaxeBlocks.contains(block.getType())
-                    && attributeManager.hasAttribute(item, CustomAttribute.RANGE_MINING)) {
-                e.setAmount(e.getAmount()/2);
+            if(attributeManager.hasAttribute(item, CustomAttribute.RANGE_MINING)) {
+                e.setAmount(e.getAmount()*rangeMiningMultiplier);
+            }
+
+            if(MaterialUtils.isCrop(block.getType())
+                    && attributeManager.hasAttribute(item, CustomAttribute.RANGE_HARVEST)) {
+                e.setAmount(e.getAmount()*rangeHarvestMultiplier);
             }
         }
 
@@ -58,15 +69,18 @@ public class JobsRebornListeners implements Listener {
 
         if(block != null) {
             if(MaterialUtils.isLog(block.getType()) && attributeManager.hasAttribute(item, CustomAttribute.TREE_CUT)) {
-                e.setExp(e.getExp()/2);
+                e.setExp(e.getExp()*treeCutMultiplier);
             }
 
-            if(BlockUtils.pickaxeBlocks.contains(block.getType())
-                    && attributeManager.hasAttribute(item, CustomAttribute.RANGE_MINING)) {
-                e.setExp(e.getExp()/2);
+            if(attributeManager.hasAttribute(item, CustomAttribute.RANGE_MINING)) {
+                e.setExp(e.getExp()*rangeMiningMultiplier);
+            }
+
+            if(MaterialUtils.isCrop(block.getType())
+                    && attributeManager.hasAttribute(item, CustomAttribute.RANGE_HARVEST)) {
+                e.setExp(e.getExp()*rangeHarvestMultiplier);
             }
         }
-
     }
 
 }

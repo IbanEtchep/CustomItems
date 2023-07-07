@@ -2,6 +2,7 @@ package fr.iban.customitems.attribute.handler;
 
 import fr.iban.customitems.utils.BlockUtils;
 import fr.iban.customitems.utils.ItemUtils;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;

@@ -18,6 +18,7 @@ public final class CustomItemsPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+        saveDefaultConfig();
         this.attributeManager = new CustomAttributeManager(this);
         registerCommands();
         registerEvent(new BukkitListeners(this));

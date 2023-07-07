@@ -6,6 +6,7 @@ import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 
@@ -30,6 +31,7 @@ public class ItemUtils {
             double breakChance = (100.0 / (damageable.getEnchantLevel(Enchantment.DURABILITY) + 1));
             if (rand <= breakChance) {
                 damageable.setDamage(damageable.getDamage() + 1);
+                new PlayerItemDamageEvent(player, itemStack, 1, 1).callEvent();
                 if (damageable.getDamage() > itemStack.getType().getMaxDurability()) {
                     itemStack.setAmount(0);
                     player.playSound(player.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);

@@ -1,16 +1,11 @@
 package fr.iban.customitems.utils;
 
-import fr.iban.customitems.CustomItemsPlugin;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.Damageable;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -21,10 +16,11 @@ public class BlockUtils {
         List<Block> surroundingBlocks = getSurroundingBlocks(blockFace, targetBlock);
         if (MaterialUtils.isShovel(tool.getType())) {
             return surroundingBlocks.stream()
-                    .filter(block -> shovelBlocks.contains(block.getType())).collect(Collectors.toList());
+                    .filter(block -> Tag.MINEABLE_SHOVEL.isTagged(block.getType())).collect(Collectors.toList());
         } else if (MaterialUtils.isPickaxe(tool.getType())) {
             return surroundingBlocks.stream()
-                    .filter(block -> pickaxeBlocks.contains(block.getType())).collect(Collectors.toList());
+                    .filter(block -> Tag.MINEABLE_PICKAXE.isTagged(block.getType()) && block.getType() != Material.OBSIDIAN)
+                    .collect(Collectors.toList());
         }
         return surroundingBlocks;
     }
