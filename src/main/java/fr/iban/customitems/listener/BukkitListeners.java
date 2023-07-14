@@ -55,7 +55,7 @@ public class BukkitListeners implements Listener {
 
         if (attributeManager.hasAttribute(item, CustomAttribute.HARVEST_REPLANT) && MaterialUtils.isCrop((block.getType()))) {
             if (CustomAttribute.HARVEST_REPLANT.getHandler() instanceof HarvestReplantHandler handler) {
-                handler.handleReplant(e, plugin);
+                handler.handleReplant(e);
             }
         }
 

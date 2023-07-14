@@ -27,6 +27,10 @@ public class ItemUtils {
 
     public static void damageItem(ItemStack itemStack, Player player) {
         if(itemStack.getItemMeta() instanceof Damageable damageable) {
+            if(damageable.isUnbreakable()) {
+                return;
+            }
+
             double rand = Math.random() * 100;
             double breakChance = (100.0 / (damageable.getEnchantLevel(Enchantment.DURABILITY) + 1));
             if (rand <= breakChance) {
