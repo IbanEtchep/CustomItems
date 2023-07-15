@@ -26,7 +26,8 @@ public class MaterialUtils {
             Material.SPRUCE_LOG, Material.WARPED_STEM, Material.CRIMSON_STEM, Material.STRIPPED_ACACIA_LOG,
             Material.STRIPPED_BIRCH_LOG, Material.STRIPPED_CRIMSON_HYPHAE, Material.STRIPPED_JUNGLE_LOG,
             Material.STRIPPED_OAK_LOG, Material.STRIPPED_DARK_OAK_LOG, Material.STRIPPED_SPRUCE_LOG, Material.MANGROVE_LOG,
-            Material.BROWN_MUSHROOM_BLOCK, Material.RED_MUSHROOM_BLOCK, Material.MUSHROOM_STEM);
+            Material.BROWN_MUSHROOM_BLOCK, Material.RED_MUSHROOM_BLOCK, Material.MUSHROOM_STEM, Material.CHERRY_LOG,
+            Material.STRIPPED_CHERRY_LOG);
 
     public static boolean isShovel(Material material) {
         return shovels.contains(material);
