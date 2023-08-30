@@ -18,13 +18,13 @@ import java.util.stream.Collectors;
 
 public class RangeMiningHandler implements AttributeHandler {
 
-    private CustomItemsPlugin plugin;
-    private Set<Material> pickaxeBlacklist;
-    private Set<Material> shovelBlacklist;
-    private boolean onlyPickaxeMineableBlocks;
-    private boolean onlyShovelMineableBlocks;
-    private boolean isPickaxeBlacklistInversed;
-    private boolean isShovelBlacklistInversed;
+    private final CustomItemsPlugin plugin;
+    private final Set<Material> pickaxeBlacklist;
+    private final Set<Material> shovelBlacklist;
+    private final boolean onlyPickaxeMineableBlocks;
+    private final boolean onlyShovelMineableBlocks;
+    private final boolean isPickaxeBlacklistInversed;
+    private final boolean isShovelBlacklistInversed;
 
     public RangeMiningHandler(CustomItemsPlugin plugin) {
         this.plugin = plugin;

@@ -20,6 +20,10 @@ range-mining:
     #Blocs qui ne doivent pas être cassés en 3x3 par une pelle
     blacklist: []
 
+melt-mining:
+  #Si cette option est activée, ça va utiliser les recettes des fours pour déterminer si un block doit être fondu ou pas.
+  recipe-checker: false
+
 auto-replant:
   #Désactive l'auto replantation dans ces mondes
   disabled-worlds: []

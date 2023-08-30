@@ -21,7 +21,7 @@ public class CustomAttributeManager {
     }
 
     public void registerHandlers(CustomItemsPlugin plugin) {
-        CustomAttribute.MELT_MINING.registerHandler(new MeltMiningHandler());
+        CustomAttribute.MELT_MINING.registerHandler(new MeltMiningHandler(plugin));
         CustomAttribute.RANGE_MINING.registerHandler(new RangeMiningHandler(plugin));
         CustomAttribute.RANGE_HARVEST.registerHandler(new RangeHarvestHandler());
         CustomAttribute.HARVEST_REPLANT.registerHandler(new HarvestReplantHandler(plugin));
