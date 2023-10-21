@@ -27,3 +27,7 @@ melt-mining:
 auto-replant:
   #Désactive l'auto replantation dans ces mondes
   disabled-worlds: []
+
+tree-cut:
+  #Maximum de blocs que le treecut peut casser en une seule fois.
+  block-threshold: 512

@@ -25,7 +25,7 @@ public class CustomAttributeManager {
         CustomAttribute.RANGE_MINING.registerHandler(new RangeMiningHandler(plugin));
         CustomAttribute.RANGE_HARVEST.registerHandler(new RangeHarvestHandler());
         CustomAttribute.HARVEST_REPLANT.registerHandler(new HarvestReplantHandler(plugin));
-        CustomAttribute.TREE_CUT.registerHandler(new TreeCutHandler());
+        CustomAttribute.TREE_CUT.registerHandler(new TreeCutHandler(plugin));
         CustomAttribute.POWER_BOOTS.registerHandler(new PowerBootsHandler());
     }
 
