@@ -6,15 +6,11 @@ import fr.iban.customitems.CustomItemsPlugin;
 import fr.iban.customitems.attribute.CustomAttribute;
 import fr.iban.customitems.attribute.handler.*;
 import fr.iban.customitems.utils.MaterialUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.FallingBlock;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -26,8 +22,6 @@ import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
-import org.bukkit.util.Vector;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -193,10 +187,45 @@ public class BukkitListeners implements Listener {
 
     @EventHandler
     public void onEntityChangeBlock(EntityChangeBlockEvent event) {
-        if(event.getEntity() instanceof FallingBlock fallingBlock) {
-            if(MaterialUtils.isLog(fallingBlock.getBlockData().getMaterial())) {
+        if (event.getEntity() instanceof FallingBlock fallingBlock) {
+            if (MaterialUtils.isLog(fallingBlock.getBlockData().getMaterial())) {
                 event.getEntity().remove();
                 event.setCancelled(true);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
+        Player player = event.getPlayer();
+        Entity entity = event.getRightClicked();
+        ItemStack item = player.getInventory().getItem(event.getHand());
+
+        if (entity instanceof Animals && attributeManager.hasAttribute(item, CustomAttribute.ANIMAL_CATCHER)) {
+            if (CustomAttribute.ANIMAL_CATCHER.getHandler() instanceof EntityCatcherHandler handler) {
+                handler.catchEntity(player, item, entity);
+            }
+        }
+
+        if (entity instanceof Villager && attributeManager.hasAttribute(item, CustomAttribute.VILLAGER_CATCHER)) {
+            if (CustomAttribute.VILLAGER_CATCHER.getHandler() instanceof EntityCatcherHandler handler) {
+                handler.catchEntity(player, item, entity);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getHand() != null) {
+            ItemStack item = player.getInventory().getItem(event.getHand());
+            if (attributeManager.hasAttribute(item, CustomAttribute.ANIMAL_CATCHER) || attributeManager.hasAttribute(item, CustomAttribute.VILLAGER_CATCHER)) {
+                AttributeHandler handler = attributeManager.hasAttribute(item, CustomAttribute.ANIMAL_CATCHER) ? CustomAttribute.ANIMAL_CATCHER.getHandler() : CustomAttribute.VILLAGER_CATCHER.getHandler();
+
+                if (handler instanceof EntityCatcherHandler entityCatcherHandler) {
+                    entityCatcherHandler.respawnEntity(player, item, event.getClickedBlock());
+                }
             }
         }
     }

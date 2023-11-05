@@ -105,5 +105,11 @@
             <version>v4.17.2</version> <!-- Change the LATEST to the current version of jobs -->
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>fr.iban</groupId>
+            <artifactId>Lands</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 </project>

@@ -1,13 +1,15 @@
 package fr.iban.customitems;
 
-import fr.iban.customitems.attribute.*;
+import fr.iban.customitems.attribute.CustomAttribute;
 import fr.iban.customitems.attribute.handler.*;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class CustomAttributeManager {
 
@@ -27,14 +29,16 @@ public class CustomAttributeManager {
         CustomAttribute.HARVEST_REPLANT.registerHandler(new HarvestReplantHandler(plugin));
         CustomAttribute.TREE_CUT.registerHandler(new TreeCutHandler(plugin));
         CustomAttribute.POWER_BOOTS.registerHandler(new PowerBootsHandler());
+        CustomAttribute.ANIMAL_CATCHER.registerHandler(new EntityCatcherHandler(plugin));
+        CustomAttribute.VILLAGER_CATCHER.registerHandler(new EntityCatcherHandler(plugin));
     }
 
     public List<String> getAttributes(ItemStack itemStack) {
         List<String> attributes = new ArrayList<>();
-        if(itemStack.hasItemMeta()) {
+        if (itemStack.hasItemMeta()) {
             String attributesString = itemStack.getItemMeta().getPersistentDataContainer().get(customAttributeKey, PersistentDataType.STRING);
             if (attributesString != null) {
-                attributes.addAll(Arrays.stream(attributesString.split(";")).filter(a -> !a.equals("")).toList());
+                attributes.addAll(Arrays.stream(attributesString.split(";")).filter(a -> !a.isEmpty()).toList());
             }
         }
         return attributes;

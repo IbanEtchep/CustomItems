@@ -2,7 +2,8 @@ name: CustomItems
 version: '${project.version}'
 main: fr.iban.customitems.CustomItemsPlugin
 api-version: 1.19
-authors: [Iban]
+authors: [ Iban ]
 description: Custom items plugin
 softdepend:
   - SurvivalCore
+  - Lands

@@ -13,7 +13,9 @@ public enum CustomAttribute {
     POWER_BOOTS,
     UNREPAIRABLE_BY_COMMAND,
     UNREPAIRABLE_BY_ANVIL,
-    UNREPAIRABLE_BY_MENDING;
+    UNREPAIRABLE_BY_MENDING,
+    ANIMAL_CATCHER,
+    VILLAGER_CATCHER;
 
     private AttributeHandler handler;
 
