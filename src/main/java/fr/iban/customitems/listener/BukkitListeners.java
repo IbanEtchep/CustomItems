@@ -203,13 +203,13 @@ public class BukkitListeners implements Listener {
 
         if (entity instanceof Animals && attributeManager.hasAttribute(item, CustomAttribute.ANIMAL_CATCHER)) {
             if (CustomAttribute.ANIMAL_CATCHER.getHandler() instanceof EntityCatcherHandler handler) {
-                handler.catchEntity(player, item, entity);
+                handler.catchEntity(player, item, entity, event);
             }
         }
 
         if (entity instanceof Villager && attributeManager.hasAttribute(item, CustomAttribute.VILLAGER_CATCHER)) {
             if (CustomAttribute.VILLAGER_CATCHER.getHandler() instanceof EntityCatcherHandler handler) {
-                handler.catchEntity(player, item, entity);
+                handler.catchEntity(player, item, entity, event);
             }
         }
     }
@@ -224,7 +224,7 @@ public class BukkitListeners implements Listener {
                 AttributeHandler handler = attributeManager.hasAttribute(item, CustomAttribute.ANIMAL_CATCHER) ? CustomAttribute.ANIMAL_CATCHER.getHandler() : CustomAttribute.VILLAGER_CATCHER.getHandler();
 
                 if (handler instanceof EntityCatcherHandler entityCatcherHandler) {
-                    entityCatcherHandler.respawnEntity(player, item, event.getClickedBlock());
+                    entityCatcherHandler.respawnEntity(player, item, event.getClickedBlock(), event.getBlockFace());
                 }
             }
         }

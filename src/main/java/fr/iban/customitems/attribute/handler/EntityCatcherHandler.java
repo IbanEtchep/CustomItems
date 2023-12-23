@@ -6,9 +6,11 @@ import fr.iban.lands.enums.Action;
 import fr.iban.lands.land.Land;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -32,7 +34,7 @@ public class EntityCatcherHandler implements AttributeHandler {
         }
     }
 
-    public void catchEntity(Player player, ItemStack item, Entity entity) {
+    public void catchEntity(Player player, ItemStack item, Entity entity, PlayerInteractEntityEvent event) {
         if (landsEnabled) {
             Land land = LandsPlugin.getInstance().getLandManager().getLandAt(entity.getLocation());
             if (!land.isBypassing(player, Action.BLOCK_BREAK)) {
@@ -42,6 +44,7 @@ public class EntityCatcherHandler implements AttributeHandler {
 
         if (item.getAmount() > 1) {
             player.sendMessage("§cVeuillez utiliser un seul item !");
+            event.setCancelled(true);
             return;
         }
 
@@ -49,6 +52,7 @@ public class EntityCatcherHandler implements AttributeHandler {
             byte[] serializedEntity = item.getItemMeta().getPersistentDataContainer().get(catchedEntityKey, PersistentDataType.BYTE_ARRAY);
             if (serializedEntity != null) {
                 player.sendMessage("§cL'item a déjà été utilsé !");
+                event.setCancelled(true);
                 return;
             }
         }
@@ -64,7 +68,7 @@ public class EntityCatcherHandler implements AttributeHandler {
     /**
      * Respawn the animal from the itemstack
      */
-    public void respawnEntity(Player player, ItemStack item, Block block) {
+    public void respawnEntity(Player player, ItemStack item, Block block, BlockFace blockFace) {
         if (landsEnabled) {
             Land land = LandsPlugin.getInstance().getLandManager().getLandAt(block.getLocation());
             if (!land.isBypassing(player, fr.iban.lands.enums.Action.BLOCK_PLACE)) {
@@ -80,9 +84,18 @@ public class EntityCatcherHandler implements AttributeHandler {
                     return;
                 }
 
+                if (blockFace != BlockFace.UP) {
+                    player.sendMessage("§cVous ne pouvez pas relâcher le mob ici !");
+                    return;
+                }
+
                 Entity entity = plugin.getServer().getUnsafe().deserializeEntity(serializedEntity, player.getWorld());
+
+                entity.setInvulnerable(true);
+                plugin.getServer().getScheduler().runTaskLater(plugin, () -> entity.setInvulnerable(false), 200);
+
                 entity.spawnAt(block.getLocation().add(0, 1, 0), CreatureSpawnEvent.SpawnReason.CUSTOM);
-                player.sendMessage("§aVous avez relâché le mob !");
+                player.sendMessage("§aVous avez relâché le mob ! Il est invulnérable pendant 10 secondes.");
                 player.getInventory().removeItem(item);
             }
         }
