@@ -16,6 +16,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.AnvilInventory;
@@ -214,17 +215,52 @@ public class BukkitListeners implements Listener {
         }
     }
 
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onPlace(BlockPlaceEvent event) {
+        Player player = event.getPlayer();
+        ItemStack item = event.getItemInHand();
+        Block block = event.getBlock();
+
+        if (block.getType() != Material.FARMLAND
+                || player.isSneaking()
+                || !MaterialUtils.isHoe(item.getType())
+                || event.isCancelled()) {
+            return;
+        }
+
+
+        if (attributeManager.hasAttribute(item, CustomAttribute.RANGE_HARVEST)) {
+            if (CustomAttribute.RANGE_HARVEST.getHandler() instanceof RangeHarvestHandler handler) {
+                handler.onTilling(event);
+            }
+        }
+    }
+
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
 
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getHand() != null) {
             ItemStack item = player.getInventory().getItem(event.getHand());
+            Block block = event.getClickedBlock();
+
             if (attributeManager.hasAttribute(item, CustomAttribute.ANIMAL_CATCHER) || attributeManager.hasAttribute(item, CustomAttribute.VILLAGER_CATCHER)) {
                 AttributeHandler handler = attributeManager.hasAttribute(item, CustomAttribute.ANIMAL_CATCHER) ? CustomAttribute.ANIMAL_CATCHER.getHandler() : CustomAttribute.VILLAGER_CATCHER.getHandler();
 
                 if (handler instanceof EntityCatcherHandler entityCatcherHandler) {
-                    entityCatcherHandler.respawnEntity(player, item, event.getClickedBlock(), event.getBlockFace());
+                    entityCatcherHandler.respawnEntity(player, item, event);
+                }
+            }
+
+            if (block != null && attributeManager.hasAttribute(item, CustomAttribute.FERTILIZE)) {
+                if (CustomAttribute.FERTILIZE.getHandler() instanceof FertilizeHandler handler) {
+                    handler.onFertilize(event);
+                }
+            }
+
+            if (block != null && attributeManager.hasAttribute(item, CustomAttribute.RANGE_FERTILIZE)) {
+                if (CustomAttribute.RANGE_FERTILIZE.getHandler() instanceof RangeFertilizeHandler handler) {
+                    handler.onFertilize(event);
                 }
             }
         }

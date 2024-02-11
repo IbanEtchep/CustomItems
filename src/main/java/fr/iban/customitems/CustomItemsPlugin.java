@@ -3,7 +3,6 @@ package fr.iban.customitems;
 import fr.iban.customitems.listener.BukkitListeners;
 import fr.iban.customitems.listener.JobsRebornListeners;
 import fr.iban.customitems.listener.SurvivalCoreListeners;
-import fr.iban.survivalcore.event.ItemRepairEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
@@ -22,12 +21,12 @@ public final class CustomItemsPlugin extends JavaPlugin {
         this.attributeManager = new CustomAttributeManager(this);
         registerCommands();
         registerEvent(new BukkitListeners(this));
-        if(isEnabled("SurvivalCore")) {
+        if (isEnabled("SurvivalCore")) {
             getLogger().info("Hooked SurvivalCore.");
             registerEvent(new SurvivalCoreListeners(this));
         }
 
-        if(isEnabled("Jobs")) {
+        if (isEnabled("Jobs")) {
             getLogger().info("Hooked Jobs.");
             registerEvent(new JobsRebornListeners(this));
         }
@@ -51,10 +50,6 @@ public final class CustomItemsPlugin extends JavaPlugin {
     private boolean isEnabled(String pluginName) {
         Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
         return plugin != null && plugin.isEnabled();
-    }
-
-    public static CustomItemsPlugin getInstance() {
-        return instance;
     }
 
     public CustomAttributeManager getAttributeManager() {

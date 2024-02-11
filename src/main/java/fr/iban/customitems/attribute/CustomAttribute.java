@@ -6,6 +6,8 @@ import org.jetbrains.annotations.Nullable;
 public enum CustomAttribute {
 
     HARVEST_REPLANT,
+    FERTILIZE,
+    RANGE_FERTILIZE,
     RANGE_HARVEST,
     RANGE_MINING,
     TREE_CUT,

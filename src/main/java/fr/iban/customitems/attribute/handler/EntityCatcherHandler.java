@@ -4,6 +4,7 @@ import fr.iban.customitems.CustomItemsPlugin;
 import fr.iban.lands.LandsPlugin;
 import fr.iban.lands.enums.Action;
 import fr.iban.lands.land.Land;
+import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -11,6 +12,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -68,7 +70,13 @@ public class EntityCatcherHandler implements AttributeHandler {
     /**
      * Respawn the animal from the itemstack
      */
-    public void respawnEntity(Player player, ItemStack item, Block block, BlockFace blockFace) {
+    public void respawnEntity(Player player, ItemStack item, PlayerInteractEvent event) {
+        BlockFace blockFace = event.getBlockFace();
+        Location clickedLocation = event.getInteractionPoint();
+        Block block = event.getClickedBlock();
+
+        if (block == null || clickedLocation == null) return;
+
         if (landsEnabled) {
             Land land = LandsPlugin.getInstance().getLandManager().getLandAt(block.getLocation());
             if (!land.isBypassing(player, fr.iban.lands.enums.Action.BLOCK_PLACE)) {
@@ -90,11 +98,10 @@ public class EntityCatcherHandler implements AttributeHandler {
                 }
 
                 Entity entity = plugin.getServer().getUnsafe().deserializeEntity(serializedEntity, player.getWorld());
+                entity.spawnAt(clickedLocation.add(0, 1, 0), CreatureSpawnEvent.SpawnReason.CUSTOM);
 
                 entity.setInvulnerable(true);
                 plugin.getServer().getScheduler().runTaskLater(plugin, () -> entity.setInvulnerable(false), 200);
-
-                entity.spawnAt(block.getLocation().add(0, 1, 0), CreatureSpawnEvent.SpawnReason.CUSTOM);
                 player.sendMessage("§aVous avez relâché le mob ! Il est invulnérable pendant 10 secondes.");
                 player.getInventory().removeItem(item);
             }

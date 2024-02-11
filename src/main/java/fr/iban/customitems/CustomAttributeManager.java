@@ -31,6 +31,8 @@ public class CustomAttributeManager {
         CustomAttribute.POWER_BOOTS.registerHandler(new PowerBootsHandler());
         CustomAttribute.ANIMAL_CATCHER.registerHandler(new EntityCatcherHandler(plugin));
         CustomAttribute.VILLAGER_CATCHER.registerHandler(new EntityCatcherHandler(plugin));
+        CustomAttribute.FERTILIZE.registerHandler(new FertilizeHandler());
+        CustomAttribute.RANGE_FERTILIZE.registerHandler(new RangeFertilizeHandler());
     }
 
     public List<String> getAttributes(ItemStack itemStack) {

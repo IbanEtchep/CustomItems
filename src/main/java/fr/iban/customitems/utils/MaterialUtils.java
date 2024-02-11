@@ -17,6 +17,16 @@ public class MaterialUtils {
             Material.IRON_PICKAXE, Material.DIAMOND_PICKAXE, Material.NETHERITE_PICKAXE
     );
 
+    public static final Set<Material> axes = EnumSet.of(
+            Material.WOODEN_AXE, Material.GOLDEN_AXE, Material.STONE_AXE,
+            Material.IRON_AXE, Material.DIAMOND_AXE, Material.NETHERITE_AXE
+    );
+
+    public static final Set<Material> hoes = EnumSet.of(
+            Material.WOODEN_HOE, Material.GOLDEN_HOE, Material.STONE_HOE,
+            Material.IRON_HOE, Material.DIAMOND_HOE, Material.NETHERITE_HOE
+    );
+
     public static final Set<Material> crops = EnumSet.of(
             Material.WHEAT, Material.POTATOES, Material.CARROTS,
             Material.BEETROOTS, Material.NETHER_WART);
@@ -35,6 +45,14 @@ public class MaterialUtils {
 
     public static boolean isPickaxe(Material material) {
         return pickaxes.contains(material);
+    }
+
+    public static boolean isAxe(Material material) {
+        return axes.contains(material);
+    }
+
+    public static boolean isHoe(Material material) {
+        return hoes.contains(material);
     }
 
     public static boolean isCrop(Material material) {
