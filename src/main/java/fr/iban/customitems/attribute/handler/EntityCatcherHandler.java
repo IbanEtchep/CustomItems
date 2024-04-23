@@ -3,7 +3,7 @@ package fr.iban.customitems.attribute.handler;
 import fr.iban.customitems.CustomItemsPlugin;
 import fr.iban.lands.LandsPlugin;
 import fr.iban.lands.enums.Action;
-import fr.iban.lands.land.Land;
+import fr.iban.lands.model.land.Land;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -38,7 +38,7 @@ public class EntityCatcherHandler implements AttributeHandler {
 
     public void catchEntity(Player player, ItemStack item, Entity entity, PlayerInteractEntityEvent event) {
         if (landsEnabled) {
-            Land land = LandsPlugin.getInstance().getLandManager().getLandAt(entity.getLocation());
+            Land land = LandsPlugin.getInstance().getLandRepository().getLandAt(entity.getLocation());
             if (!land.isBypassing(player, Action.BLOCK_BREAK)) {
                 return;
             }
@@ -78,7 +78,7 @@ public class EntityCatcherHandler implements AttributeHandler {
         if (block == null || clickedLocation == null) return;
 
         if (landsEnabled) {
-            Land land = LandsPlugin.getInstance().getLandManager().getLandAt(block.getLocation());
+            Land land = LandsPlugin.getInstance().getLandRepository().getLandAt(block.getLocation());
             if (!land.isBypassing(player, fr.iban.lands.enums.Action.BLOCK_PLACE)) {
                 return;
             }

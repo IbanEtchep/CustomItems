@@ -1,6 +1,5 @@
 package fr.iban.customitems.attribute.handler;
 
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -21,7 +20,7 @@ public class FertilizeHandler implements AttributeHandler {
     }
 
     protected void fertilize(Block block, Player player, ItemStack item) {
-        if (block.getType() == Material.GRASS_BLOCK) return;
+        if (block.getType().toString().startsWith("GRASS")) return;
 
         boolean result = block.applyBoneMeal(BlockFace.UP);
 
