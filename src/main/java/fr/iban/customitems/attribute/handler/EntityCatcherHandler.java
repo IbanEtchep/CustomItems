@@ -16,23 +16,24 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class EntityCatcherHandler implements AttributeHandler {
 
     private final NamespacedKey catchedEntityKey;
     private final CustomItemsPlugin plugin;
     private boolean landsEnabled = false;
+    private Map<UUID, Long> placeCooldowns;
 
     public EntityCatcherHandler(CustomItemsPlugin plugin) {
         this.plugin = plugin;
         this.catchedEntityKey = new NamespacedKey(plugin, "catched_entity");
-        if (plugin.getServer().getPluginManager().isPluginEnabled("Lands")) {
-            try {
-                Class.forName("fr.iban.lands.LandsPlugin");
-                landsEnabled = true;
-            } catch (ClassNotFoundException ignored) {
-            }
+        this.placeCooldowns = new HashMap<>();
+        if (plugin.getServer().getPluginManager().isPluginEnabled("MSLands")) {
+            landsEnabled = true;
         }
     }
 
@@ -64,6 +65,7 @@ public class EntityCatcherHandler implements AttributeHandler {
         item.editMeta(meta -> meta.getPersistentDataContainer().set(catchedEntityKey, PersistentDataType.BYTE_ARRAY, serializedEntity));
         entity.remove();
         player.sendMessage("§aVous avez capturé un mob !");
+        this.placeCooldowns.put(player.getUniqueId(), System.currentTimeMillis() + 1000);
         item.editMeta(meta -> meta.setLore(List.of("§7Mob capturé: §e" + entity.getType().name())));
     }
 
@@ -76,6 +78,11 @@ public class EntityCatcherHandler implements AttributeHandler {
         Block block = event.getClickedBlock();
 
         if (block == null || clickedLocation == null) return;
+
+        if (placeCooldowns.containsKey(player.getUniqueId()) && placeCooldowns.get(player.getUniqueId()) > System.currentTimeMillis()) {
+            player.sendMessage("§cVous devez attendre 1 seconde avant de relâcher un mob !");
+            return;
+        }
 
         if (landsEnabled) {
             Land land = LandsPlugin.getInstance().getLandRepository().getLandAt(block.getLocation());

@@ -1,6 +1,6 @@
 package fr.iban.customitems.utils;
 
-import org.bukkit.Material;
+import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
@@ -12,22 +12,16 @@ import org.bukkit.inventory.meta.Damageable;
 
 public class ItemUtils {
 
-//    public static void handleBlockBreak(Player player, Block block, ItemStack item) {
-//        BlockBreakEvent blockBreakEvent = new BlockBreakEvent(block, player);
-//        blockBreakEvent.callEvent();
-//        if (!blockBreakEvent.isCancelled()) {
-//            if(blockBreakEvent.isDropItems()) {
-//                block.breakNaturally(item);
-//            }else {
-//                block.breakNaturally(new ItemStack(Material.DIRT));
-//            }
-//            ItemUtils.damageItem(item, player);
-//        }
-//    }
+    public boolean hasAccess(Player player, Location location) {
+        Block block = location.getBlock();
+        BlockBreakEvent blockBreakEvent = new BlockBreakEvent(block, player);
+
+        return !blockBreakEvent.callEvent();
+    }
 
     public static void damageItem(ItemStack itemStack, Player player) {
-        if(itemStack.getItemMeta() instanceof Damageable damageable) {
-            if(damageable.isUnbreakable()) {
+        if (itemStack.getItemMeta() instanceof Damageable damageable) {
+            if (damageable.isUnbreakable()) {
                 return;
             }
 

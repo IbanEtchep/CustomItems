@@ -1,14 +1,11 @@
 package fr.iban.customitems.listener;
 
 import com.gamingmesh.jobs.api.JobsExpGainEvent;
-import com.gamingmesh.jobs.api.JobsPaymentEvent;
 import com.gamingmesh.jobs.api.JobsPrePaymentEvent;
 import fr.iban.customitems.CustomAttributeManager;
 import fr.iban.customitems.CustomItemsPlugin;
 import fr.iban.customitems.attribute.CustomAttribute;
-import fr.iban.customitems.utils.BlockUtils;
 import fr.iban.customitems.utils.MaterialUtils;
-import fr.iban.survivalcore.event.ItemRepairEvent;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -36,23 +33,23 @@ public class JobsRebornListeners implements Listener {
     public void onPayment(JobsPrePaymentEvent e) {
         Player player = e.getPlayer().getPlayer();
 
-        if(player == null) return;
+        if (player == null) return;
 
         ItemStack item = player.getInventory().getItemInMainHand();
         Block block = e.getBlock();
 
-        if(block != null) {
-            if(MaterialUtils.isLog(block.getType()) && attributeManager.hasAttribute(item, CustomAttribute.TREE_CUT)) {
-                e.setAmount(e.getAmount()*treeCutMultiplier);
+        if (block != null) {
+            if (MaterialUtils.isLog(block.getType()) && attributeManager.hasAttribute(item, CustomAttribute.TREE_CUT)) {
+                e.setAmount(e.getAmount() * treeCutMultiplier);
             }
 
-            if(attributeManager.hasAttribute(item, CustomAttribute.RANGE_MINING)) {
-                e.setAmount(e.getAmount()*rangeMiningMultiplier);
+            if (attributeManager.hasAttribute(item, CustomAttribute.RANGE_MINING)) {
+                e.setAmount(e.getAmount() * rangeMiningMultiplier);
             }
 
-            if(MaterialUtils.isCrop(block.getType())
+            if (MaterialUtils.isCrop(block.getType())
                     && attributeManager.hasAttribute(item, CustomAttribute.RANGE_HARVEST)) {
-                e.setAmount(e.getAmount()*rangeHarvestMultiplier);
+                e.setAmount(e.getAmount() * rangeHarvestMultiplier);
             }
         }
 
@@ -62,23 +59,23 @@ public class JobsRebornListeners implements Listener {
     public void onExpGain(JobsExpGainEvent e) {
         Player player = e.getPlayer().getPlayer();
 
-        if(player == null) return;
+        if (player == null) return;
 
         ItemStack item = player.getInventory().getItemInMainHand();
         Block block = e.getBlock();
 
-        if(block != null) {
-            if(MaterialUtils.isLog(block.getType()) && attributeManager.hasAttribute(item, CustomAttribute.TREE_CUT)) {
-                e.setExp(e.getExp()*treeCutMultiplier);
+        if (block != null) {
+            if (MaterialUtils.isLog(block.getType()) && attributeManager.hasAttribute(item, CustomAttribute.TREE_CUT)) {
+                e.setExp(e.getExp() * treeCutMultiplier);
             }
 
-            if(attributeManager.hasAttribute(item, CustomAttribute.RANGE_MINING)) {
-                e.setExp(e.getExp()*rangeMiningMultiplier);
+            if (attributeManager.hasAttribute(item, CustomAttribute.RANGE_MINING)) {
+                e.setExp(e.getExp() * rangeMiningMultiplier);
             }
 
-            if(MaterialUtils.isCrop(block.getType())
+            if (MaterialUtils.isCrop(block.getType())
                     && attributeManager.hasAttribute(item, CustomAttribute.RANGE_HARVEST)) {
-                e.setExp(e.getExp()*rangeHarvestMultiplier);
+                e.setExp(e.getExp() * rangeHarvestMultiplier);
             }
         }
     }

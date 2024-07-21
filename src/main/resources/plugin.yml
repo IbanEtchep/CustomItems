@@ -5,5 +5,5 @@ api-version: 1.19
 authors: [ Iban ]
 description: Custom items plugin
 softdepend:
-  - SurvivalCore
-  - Lands
+    - SurvivalCore
+    - MSLands
