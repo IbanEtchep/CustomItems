@@ -48,6 +48,16 @@ public class BukkitListeners implements Listener {
             return;
         }
 
+        if (attributeManager.hasAttribute(item, CustomAttribute.REQUIRE_JOB_LEVEL)) {
+            if (CustomAttribute.REQUIRE_JOB_LEVEL.getHandler() instanceof RequireJobLevelHandler handler) {
+                if (!handler.hasRequiredLevelForItem(player, item)) {
+                    player.sendMessage("§cVous n'avez pas le niveau métier requis pour utiliser cet item.");
+                    e.setCancelled(true);
+                    return;
+                }
+            }
+        }
+
         if (attributeManager.hasAttribute(item, CustomAttribute.HARVEST_REPLANT) && MaterialUtils.isCrop((block.getType()))) {
             if (CustomAttribute.HARVEST_REPLANT.getHandler() instanceof HarvestReplantHandler handler) {
                 handler.handleReplant(e);

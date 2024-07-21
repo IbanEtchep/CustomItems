@@ -58,7 +58,7 @@ public class JobsRebornListeners implements Listener {
     @EventHandler
     public void onExpGain(JobsExpGainEvent e) {
         Player player = e.getPlayer().getPlayer();
-
+        
         if (player == null) return;
 
         ItemStack item = player.getInventory().getItemInMainHand();
