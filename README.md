@@ -31,7 +31,8 @@ Ce plugin permet de créer des items ayant des capacités spéciales grâce à d
 | **/customattribute addValue <attribut> <cléValeur> <valeur>** | Permet d'ajouter une valeur à un attribut de l'item en main  |
 | **/customattribute removeValue <attribut> <cléValeur>**       | Permet de retirer une valeur à un attribut de l'item en main |
 
-Exemple REQUIRE_JOB_LEVEL:
-/customattribute add REQUIRE_JOB_LEVEL
-/customattribute addValue REQUIRE_JOB_LEVEL level 10
-/customattribute addValue REQUIRE_JOB_LEVEL job Mineur
+**Exemple REQUIRE_JOB_LEVEL:**
+
+- /customattribute add REQUIRE_JOB_LEVEL
+- /customattribute addValue REQUIRE_JOB_LEVEL level 10
+- /customattribute addValue REQUIRE_JOB_LEVEL job Mineur
