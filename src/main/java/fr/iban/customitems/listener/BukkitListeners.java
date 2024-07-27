@@ -1,6 +1,7 @@
 package fr.iban.customitems.listener;
 
 import com.destroystokyo.paper.event.inventory.PrepareResultEvent;
+import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
 import fr.iban.customitems.CustomAttributeManager;
 import fr.iban.customitems.CustomItemsPlugin;
 import fr.iban.customitems.attribute.CustomAttribute;
@@ -276,4 +277,15 @@ public class BukkitListeners implements Listener {
         }
     }
 
+    @EventHandler
+    public void onArmorChange(PlayerArmorChangeEvent event) {
+        ItemStack oldItem = event.getOldItem();
+        ItemStack newItem = event.getNewItem();
+
+        if (attributeManager.hasAttribute(oldItem, CustomAttribute.ARMOR_EFFECT) || attributeManager.hasAttribute(newItem, CustomAttribute.ARMOR_EFFECT)) {
+            if (CustomAttribute.ARMOR_EFFECT.getHandler() instanceof ArmorEffectHandler handler) {
+                handler.handleArmorChange(event);
+            }
+        }
+    }
 }

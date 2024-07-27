@@ -8,6 +8,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.potion.PotionEffectType;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -49,16 +50,44 @@ public class CustomAttributeManager {
                         return false;
                     }
                 });
+
+        CustomAttribute.ARMOR_EFFECT.registerHandler(new ArmorEffectHandler(plugin))
+                .addAttributeValueValidator("effect", "L'effet n'existe pas.", s -> {
+                    try {
+                        PotionEffectType.getByName(s);
+                        return true;
+                    } catch (IllegalArgumentException e) {
+                        return false;
+                    }
+                })
+                .addAttributeValueValidator("level", "Le niveau doit être un nombre positif", s -> {
+                    try {
+                        int level = Integer.parseInt(s);
+                        return level > 0;
+                    } catch (NumberFormatException e) {
+                        return false;
+                    }
+                })
+                .addAttributeValueValidator("full_set", "La valeur doit être 'true' ou 'false'", s -> s.equals("true") || s.equals("false"))
+                .addAttributeValueValidator("identifier", "L'identifiant ne peut pas être vide", s -> !s.isEmpty());
     }
 
     public Map<String, Map<String, String>> getAttributes(ItemStack itemStack) {
-        if (itemStack.hasItemMeta()) {
-            String json = itemStack.getItemMeta().getPersistentDataContainer().get(customAttributeKey, PersistentDataType.STRING);
+        Map<String, Map<String, String>> attributes = new HashMap<>();
+
+        if (itemStack != null && itemStack.hasItemMeta()) {
+            ItemMeta itemMeta = itemStack.getItemMeta();
+            String json = itemMeta.getPersistentDataContainer().get(customAttributeKey, PersistentDataType.STRING);
             if (json != null) {
-                return gson.fromJson(json, attributeMapType);
+                try {
+                    attributes.putAll(gson.fromJson(json, attributeMapType));
+                } catch (Exception e) {
+                    attributes.putAll(migrateOldAttributes(json));
+                }
             }
         }
-        return new HashMap<>();
+
+        return attributes;
     }
 
     public void setAttribute(ItemStack itemStack, CustomAttribute attribute, Map<String, String> values) {
@@ -98,5 +127,18 @@ public class CustomAttributeManager {
 
     public Map<String, String> getAttributeValues(ItemStack itemStack, CustomAttribute attribute) {
         return getAttributes(itemStack).getOrDefault(attribute.toString(), Map.of());
+    }
+
+    private Map<String, Map<String, String>> migrateOldAttributes(String oldAttributesString) {
+        Map<String, Map<String, String>> newAttributes = new HashMap<>();
+        if (oldAttributesString != null && !oldAttributesString.isEmpty()) {
+            String[] attributesArray = oldAttributesString.split(";");
+            for (String attr : attributesArray) {
+                if (!attr.isEmpty()) {
+                    newAttributes.put(attr, new HashMap<>());
+                }
+            }
+        }
+        return newAttributes;
     }
 }

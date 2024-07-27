@@ -22,6 +22,7 @@ public enum CustomAttribute {
     UNREPAIRABLE_BY_MENDING,
     ANIMAL_CATCHER,
     VILLAGER_CATCHER,
+    ARMOR_EFFECT,
     REQUIRE_JOB_LEVEL;
 
     private AttributeHandler handler;

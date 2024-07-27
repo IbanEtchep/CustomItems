@@ -4,22 +4,23 @@ Ce plugin permet de créer des items ayant des capacités spéciales grâce à d
 
 ## Attributs:
 
-| Attribut                    | Description                                                                                       | Valeurs                     |
-|-----------------------------|---------------------------------------------------------------------------------------------------|-----------------------------|
-| **HARVEST_REPLANT**         | Permet de replanter automatiquement les cultures                                                  |                             |
-| **FERTILIZE**               | Permet de fertiliser les cultures en effectuant un clic droit, en échange de durabilité de l'item |                             |
-| **RANGE_FERTILIZE**         | Permet de fertiliser les cultures dans un diamètre de 3 blocs                                     |                             |
-| **RANGE_HARVEST**           | Permet de récolter les cultures dans un diamètre de 3 blocs                                       |                             |
-| **RANGE_MINING**            | Permet de miner les blocs dans un diamètre de 3 blocs                                             |                             |
-| **TREE_CUT**                | Permet de couper les arbres en cassant leur tronc                                                 |                             |
-| **MELT_MINING**             | Fait fondre automatiquement les blocs minés                                                       |                             |
-| **POWER_BOOTS**             | Permet de donner un effet de double saut aux bottes                                               |                             |
-| **UNREPAIRABLE_BY_COMMAND** | Empêche de réparer l'item par commande /repair                                                    |                             |
-| **UNREPAIRABLE_BY_ANVIL**   | Empêche de réparer l'item par enclume                                                             |                             |
-| **UNREPAIRABLE_BY_MENDING** | Empêche de réparer l'item par mending                                                             |                             |
-| **ANIMAL_CATCHER**          | Permet de capturer les animaux en effectuant un clic droit et les relâcher ailleurs               |                             |
-| **VILLAGER_CATCHER**        | Permet de capturer les villageois en effectuant un clic droit et les relâcher ailleurs            |                             |
-| **REQUIRE_JOB_LEVEL**       | Permet de définir un niveau de job requis pour utiliser l'item                                    | **level(int), job(String)** |
+| Attribut                    | Description                                                                                       | Valeurs                                                                                                                                                                    |
+|-----------------------------|---------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **HARVEST_REPLANT**         | Permet de replanter automatiquement les cultures                                                  |                                                                                                                                                                            |
+| **FERTILIZE**               | Permet de fertiliser les cultures en effectuant un clic droit, en échange de durabilité de l'item |                                                                                                                                                                            |
+| **RANGE_FERTILIZE**         | Permet de fertiliser les cultures dans un diamètre de 3 blocs                                     |                                                                                                                                                                            |
+| **RANGE_HARVEST**           | Permet de récolter les cultures dans un diamètre de 3 blocs                                       |                                                                                                                                                                            |
+| **RANGE_MINING**            | Permet de miner les blocs dans un diamètre de 3 blocs                                             |                                                                                                                                                                            |
+| **TREE_CUT**                | Permet de couper les arbres en cassant leur tronc                                                 |                                                                                                                                                                            |
+| **MELT_MINING**             | Fait fondre automatiquement les blocs minés                                                       |                                                                                                                                                                            |
+| **POWER_BOOTS**             | Permet de donner un effet de double saut aux bottes                                               |                                                                                                                                                                            |
+| **UNREPAIRABLE_BY_COMMAND** | Empêche de réparer l'item par commande /repair                                                    |                                                                                                                                                                            |
+| **UNREPAIRABLE_BY_ANVIL**   | Empêche de réparer l'item par enclume                                                             |                                                                                                                                                                            |
+| **UNREPAIRABLE_BY_MENDING** | Empêche de réparer l'item par mending                                                             |                                                                                                                                                                            |
+| **ANIMAL_CATCHER**          | Permet de capturer les animaux en effectuant un clic droit et les relâcher ailleurs               |                                                                                                                                                                            |
+| **VILLAGER_CATCHER**        | Permet de capturer les villageois en effectuant un clic droit et les relâcher ailleurs            |                                                                                                                                                                            |
+| **REQUIRE_JOB_LEVEL**       | Permet de définir un niveau de job requis pour utiliser l'item                                    | **level(int), job(String)**                                                                                                                                                |
+| **ARMOR_EFFECT**            | Permet de donner un effet de potion à l'armure                                                    | **effect(String), level(int)**, **full_set(true/false)**, **identifier(string)** (identifier seulement utile si full_set, tout le full_set doit avoir le même identifiant) |
 
 ## Commandes:
 
