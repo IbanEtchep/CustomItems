@@ -11,6 +11,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffectType;
 
 import java.lang.reflect.Type;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,7 +20,7 @@ public class CustomAttributeManager {
     private final CustomItemsPlugin plugin;
     private final NamespacedKey customAttributeKey;
     private final Gson gson;
-    private final Type attributeMapType = new TypeToken<Map<String, Map<String, String>>>() {
+    private final Type attributeMapType = new TypeToken<Map<String, String>>() {
     }.getType();
 
     public CustomAttributeManager(CustomItemsPlugin plugin) {
@@ -77,12 +78,18 @@ public class CustomAttributeManager {
 
         if (itemStack != null && itemStack.hasItemMeta()) {
             ItemMeta itemMeta = itemStack.getItemMeta();
-            String json = itemMeta.getPersistentDataContainer().get(customAttributeKey, PersistentDataType.STRING);
-            if (json != null) {
-                try {
-                    attributes.putAll(gson.fromJson(json, attributeMapType));
-                } catch (Exception e) {
-                    attributes.putAll(migrateOldAttributes(json));
+            String data = itemMeta.getPersistentDataContainer().get(customAttributeKey, PersistentDataType.STRING);
+            if (data != null) {
+                String[] attributeEntries = data.split(";");
+                for (String entry : attributeEntries) {
+                    if (entry.contains(":")) {
+                        String[] parts = entry.split(":", 2);
+                        String attributeName = parts[0];
+                        Map<String, String> values = gson.fromJson(parts[1], attributeMapType);
+                        attributes.put(attributeName, values);
+                    } else {
+                        attributes.put(entry, new HashMap<>());
+                    }
                 }
             }
         }
@@ -111,13 +118,22 @@ public class CustomAttributeManager {
     }
 
     public void setAttributes(ItemStack itemStack, Map<String, Map<String, String>> attributes) {
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        if (attributes.isEmpty()) {
-            itemMeta.getPersistentDataContainer().remove(customAttributeKey);
-        } else {
-            String json = gson.toJson(attributes);
-            itemMeta.getPersistentDataContainer().set(customAttributeKey, PersistentDataType.STRING, json);
+        StringBuilder dataBuilder = new StringBuilder();
+        for (Map.Entry<String, Map<String, String>> entry : attributes.entrySet()) {
+            if (entry.getValue().isEmpty()) {
+                dataBuilder.append(entry.getKey()).append(";");
+            } else {
+                String jsonValues = gson.toJson(entry.getValue());
+                dataBuilder.append(entry.getKey()).append(":").append(jsonValues).append(";");
+            }
         }
+        String data = dataBuilder.toString();
+        if (data.endsWith(";")) {
+            data = data.substring(0, data.length() - 1);
+        }
+
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.getPersistentDataContainer().set(customAttributeKey, PersistentDataType.STRING, data);
         itemStack.setItemMeta(itemMeta);
     }
 
@@ -126,19 +142,6 @@ public class CustomAttributeManager {
     }
 
     public Map<String, String> getAttributeValues(ItemStack itemStack, CustomAttribute attribute) {
-        return getAttributes(itemStack).getOrDefault(attribute.toString(), Map.of());
-    }
-
-    private Map<String, Map<String, String>> migrateOldAttributes(String oldAttributesString) {
-        Map<String, Map<String, String>> newAttributes = new HashMap<>();
-        if (oldAttributesString != null && !oldAttributesString.isEmpty()) {
-            String[] attributesArray = oldAttributesString.split(";");
-            for (String attr : attributesArray) {
-                if (!attr.isEmpty()) {
-                    newAttributes.put(attr, new HashMap<>());
-                }
-            }
-        }
-        return newAttributes;
+        return getAttributes(itemStack).getOrDefault(attribute.toString(), Collections.emptyMap());
     }
 }

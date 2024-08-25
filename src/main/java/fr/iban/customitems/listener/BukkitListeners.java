@@ -239,7 +239,6 @@ public class BukkitListeners implements Listener {
             return;
         }
 
-
         if (attributeManager.hasAttribute(item, CustomAttribute.RANGE_HARVEST)) {
             if (CustomAttribute.RANGE_HARVEST.getHandler() instanceof RangeHarvestHandler handler) {
                 handler.onTilling(event);

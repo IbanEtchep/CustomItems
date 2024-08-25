@@ -26,7 +26,7 @@ public class ItemUtils {
             }
 
             double rand = Math.random() * 100;
-            double breakChance = (100.0 / (damageable.getEnchantLevel(Enchantment.DURABILITY) + 1));
+            double breakChance = (100.0 / (damageable.getEnchantLevel(Enchantment.UNBREAKING) + 1));
             if (rand <= breakChance) {
                 damageable.setDamage(damageable.getDamage() + 1);
                 new PlayerItemDamageEvent(player, itemStack, 1, 1).callEvent();

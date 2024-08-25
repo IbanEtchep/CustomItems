@@ -17,16 +17,16 @@ public class JobsRebornListeners implements Listener {
     private final CustomItemsPlugin plugin;
     private final CustomAttributeManager attributeManager;
 
-    private int rangeMiningMultiplier = 1;
-    private int rangeHarvestMultiplier = 1;
-    private int treeCutMultiplier = 1;
+    private double rangeMiningMultiplier = 1;
+    private double rangeHarvestMultiplier = 1;
+    private double treeCutMultiplier = 1;
 
     public JobsRebornListeners(CustomItemsPlugin plugin) {
         this.plugin = plugin;
         this.attributeManager = plugin.getAttributeManager();
-        this.rangeMiningMultiplier = plugin.getConfig().getInt("range-mining-jobs-multiplier", 1);
-        this.rangeHarvestMultiplier = plugin.getConfig().getInt("range-harvest-jobs-multiplier", 1);
-        this.treeCutMultiplier = plugin.getConfig().getInt("tree-cut-jobs-multiplier", 1);
+        this.rangeMiningMultiplier = plugin.getConfig().getDouble("range-mining-jobs-multiplier", 1);
+        this.rangeHarvestMultiplier = plugin.getConfig().getDouble("range-harvest-jobs-multiplier", 1);
+        this.treeCutMultiplier = plugin.getConfig().getDouble("tree-cut-jobs-multiplier", 1);
     }
 
     @EventHandler
