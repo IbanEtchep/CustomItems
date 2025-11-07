@@ -7,7 +7,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-import revxrsal.commands.bukkit.BukkitCommandHandler;
+import revxrsal.commands.Lamp;
+import revxrsal.commands.bukkit.BukkitLamp;
+import revxrsal.commands.bukkit.actor.BukkitCommandActor;
 
 public final class CustomItemsPlugin extends JavaPlugin {
 
@@ -38,9 +40,11 @@ public final class CustomItemsPlugin extends JavaPlugin {
     }
 
     private void registerCommands() {
-        BukkitCommandHandler commandHandler = BukkitCommandHandler.create(this);
-        commandHandler.register(new CustomAttributeCommands(this));
-        commandHandler.register(new UpdateItemsCommand(this));
+        Lamp<BukkitCommandActor> lamp =  BukkitLamp.builder(this)
+                .build();
+
+        lamp.register(new CustomAttributeCommands(this));
+        lamp.register(new UpdateItemsCommand(this));
     }
 
     private void registerEvent(Listener listener) {

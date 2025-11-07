@@ -3,16 +3,8 @@
 
 [versions]
 com-github-ibanetchep-mscore-core-survival = "1.1.0"
-com-github-revxrsal-lamp-bukkit = "3.3.0"
-com-github-revxrsal-lamp-common = "3.3.0"
 com-github-zrips-jobs = "v4.17.2"
-fr-iban-lands = "1.0"
-io-papermc-paper-paper-api = "1.21.1-R0.1-SNAPSHOT"
 
 [libraries]
 com-github-ibanetchep-mscore-core-survival = { module = "com.github.IbanEtchep.MSCore:core-survival", version.ref = "com-github-ibanetchep-mscore-core-survival" }
-com-github-revxrsal-lamp-bukkit = { module = "com.github.Revxrsal.Lamp:bukkit", version.ref = "com-github-revxrsal-lamp-bukkit" }
-com-github-revxrsal-lamp-common = { module = "com.github.Revxrsal.Lamp:common", version.ref = "com-github-revxrsal-lamp-common" }
 com-github-zrips-jobs = { module = "com.github.Zrips:Jobs", version.ref = "com-github-zrips-jobs" }
-fr-iban-lands = { module = "fr.iban:Lands", version.ref = "fr-iban-lands" }
-io-papermc-paper-paper-api = { module = "io.papermc.paper:paper-api", version.ref = "io-papermc-paper-paper-api" }

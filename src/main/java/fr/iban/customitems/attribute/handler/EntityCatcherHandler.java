@@ -1,15 +1,13 @@
 package fr.iban.customitems.attribute.handler;
 
 import fr.iban.customitems.CustomItemsPlugin;
-import fr.iban.lands.LandsPlugin;
-import fr.iban.lands.enums.Action;
-import fr.iban.lands.model.land.Land;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -25,24 +23,17 @@ public class EntityCatcherHandler implements AttributeHandler {
 
     private final NamespacedKey catchedEntityKey;
     private final CustomItemsPlugin plugin;
-    private boolean landsEnabled = false;
     private Map<UUID, Long> placeCooldowns;
 
     public EntityCatcherHandler(CustomItemsPlugin plugin) {
         this.plugin = plugin;
         this.catchedEntityKey = new NamespacedKey(plugin, "catched_entity");
         this.placeCooldowns = new HashMap<>();
-        if (plugin.getServer().getPluginManager().isPluginEnabled("MSLands")) {
-            landsEnabled = true;
-        }
     }
 
     public void catchEntity(Player player, ItemStack item, Entity entity, PlayerInteractEntityEvent event) {
-        if (landsEnabled) {
-            Land land = LandsPlugin.getInstance().getLandRepository().getLandAt(entity.getLocation());
-            if (!land.isBypassing(player, Action.BLOCK_BREAK)) {
-                return;
-            }
+        if (!canBreakBlock(player, entity.getLocation())) {
+            return;
         }
 
         if (item.getAmount() > 1) {
@@ -84,12 +75,7 @@ public class EntityCatcherHandler implements AttributeHandler {
             return;
         }
 
-        if (landsEnabled) {
-            Land land = LandsPlugin.getInstance().getLandRepository().getLandAt(block.getLocation());
-            if (!land.isBypassing(player, fr.iban.lands.enums.Action.BLOCK_PLACE)) {
-                return;
-            }
-        }
+        if(!canBreakBlock(player, clickedLocation)) return;
 
         if (item.hasItemMeta()) {
             byte[] serializedEntity = item.getItemMeta().getPersistentDataContainer().get(catchedEntityKey, PersistentDataType.BYTE_ARRAY);
@@ -113,5 +99,9 @@ public class EntityCatcherHandler implements AttributeHandler {
                 player.getInventory().removeItem(item);
             }
         }
+    }
+
+    private boolean canBreakBlock(Player player, Location location) {
+        return new BlockBreakEvent(location.getBlock(), player).callEvent();
     }
 }
